@@ -19,25 +19,36 @@ sorted alphabetically.
 Each of the above examples should be it's own module.
 */
 
-// use unicode_segmentation::UnicodeSegmentation;
-use std::str;
+// Challenge 1: Mean, Median, Mode
 
-fn main() {
-    // Challenge 1: Mean, Median, Mode
+// Challenge 2: Convert to Pig Latin
+pub mod pig_latin{
+    // use unicode_segmentation::UnicodeSegmentation;
+    use std::str;
 
-    // Challenge 2: Convert to pig latin
-    fn to_pig_latin(input: String) -> String {
-        let mut byte_vec: Vec<u8> = input.into_bytes();
+    fn is_vowel(mut input: String) -> bool {
+        let first = input.remove(0)
+            .to_uppercase().next().unwrap();
 
-        let first_char: u8 = byte_vec.remove(0);
-        let ending: Vec<u8> = String::from("-ay").into_bytes();
+        match first {
+            'A' | 'E' | 'I' | 'O' | 'U' =>
+                return true,
+            _ => return false,
+        }
 
-        byte_vec.push(first_char);
-        byte_vec.extend_from_slice(&ending);
-
-        let pig_str: &str= str::from_utf8(&byte_vec).unwrap();
-        String::from(pig_str)
     }
 
-    println!("{}", to_pig_latin("Shit".to_string()));
+    pub fn to_pig_latin(mut input: String) -> String {
+        if is_vowel(input.clone()) {
+            return format!("{}-hay", input);
+        }
+
+        let first = input.remove(0);
+        format!("{}-{}ay", input, first)
+    }
+}
+
+
+fn main() {
+    println!("{}", pig_latin::to_pig_latin("india".to_string()));
 }
