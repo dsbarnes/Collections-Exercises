@@ -18,14 +18,26 @@ sorted alphabetically.
 
 Each of the above examples should be it's own module.
 */
-mod test;
-use test::{foo, bar};
 
-use import_me::custom_lib;
+// use unicode_segmentation::UnicodeSegmentation;
+use std::str;
 
 fn main() {
-    foo::dog();
-    bar::cat();
+    // Challenge 1: Mean, Median, Mode
 
-    custom_lib::function();
+    // Challenge 2: Convert to pig latin
+    fn to_pig_latin(input: String) -> String {
+        let mut byte_vec: Vec<u8> = input.into_bytes();
+
+        let first_char: u8 = byte_vec.remove(0);
+        let ending: Vec<u8> = String::from("-ay").into_bytes();
+
+        byte_vec.push(first_char);
+        byte_vec.extend_from_slice(&ending);
+
+        let pig_str: &str= str::from_utf8(&byte_vec).unwrap();
+        String::from(pig_str)
+    }
+
+    println!("{}", to_pig_latin("Shit".to_string()));
 }
