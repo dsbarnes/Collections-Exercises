@@ -23,8 +23,6 @@ Each of the above examples should be it's own module.
 
 // Challenge 2: Convert to Pig Latin
 pub mod pig_latin{
-    // use unicode_segmentation::UnicodeSegmentation;
-    use std::str;
 
     fn is_vowel(mut input: String) -> bool {
         let first = input.remove(0)
