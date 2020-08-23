@@ -22,9 +22,8 @@ Each of the above examples should be it's own module.
 mod pig_latin;
 use pig_latin::mod_pig_latin;
 
-use std::env;
 use std::io;
-use std::collections::{ HashMap, hash_map::Entry };
+use std::collections::HashMap;
 
 
 fn main() {
