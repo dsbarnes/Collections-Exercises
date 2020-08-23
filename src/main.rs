@@ -22,83 +22,52 @@ Each of the above examples should be it's own module.
 mod pig_latin;
 use pig_latin::mod_pig_latin;
 
-use std::env;
 use std::io;
+use std::collections::HashMap;
 
-enum Command {
-    List,
-    Add,
-}
 
 fn main() {
     // Challenge 2
     println!("{}", mod_pig_latin::to_pig_latin("india".to_string()));
     println!("{}", mod_pig_latin::to_pig_latin("dingus".to_string()));
+    println!("\n");
 
-    let mut sls = vec!["Joe", "Ben", "Matt", "Caleb"];
-    let mut dev = vec!["Kevin"];
-    let mut des = vec!["Mark"];
-    let mut mkt = vec!["Sally"];
-    let mut mgt = vec!["Aaron"];
+    // Challenge 3
+    // This is a massivly error prone solution.
+    // However, we're not to the chapter on error handling yet
+    // That is my excuse.
 
+    // Initialize an HashMap, and add some departments to work with:
+    let mut employee_directory: HashMap<String, Vec<String>> = HashMap::new();
+    employee_directory.insert(String::from("Development"), vec![]);
+    employee_directory.insert(String::from("Design"), vec![]);
+    employee_directory.insert(String::from("Marketing"), vec![]);
 
-    // See the guessing game for how to continually take input
-    // and push that new input to the vecs
+    // Just like the guessing game
+    // Should add some instructions
+    loop {
+        // capture the input and split it into a Vec<String>
+        let mut input = String::new();
+        io::stdin().read_line(&mut input).expect("");
+        let commands: Vec<&str> = input.trim().split(" ").collect();
 
-    loop{
-        let args: Vec<String> = env::args().collect();
-
-        let command = match args[1].as_str() {
-            "add" => Command::Add,
-            "list" => Command::List,
-            _ => panic!(),
-        };
-
-
-        match command {
-            Command::Add => {
-                // let name = args[2].as_str();
-                match args[3].as_str() {
-                    "sales" => {
-                        sls.push(args[2].as_str());
-                        println!("{} was added to {}", args[2], args[3]);
-                        println!("{:?}", sls)
-                    },
-
-                    "development" => {
-                        dev.push(args[2].as_str());
-                        println!("{} was added to {}", args[2], args[3].as_str());
-                        println!("{:?}", dev)
-                    },
-
-                    "design" => {
-                        des.push(args[2].as_str());
-                        println!("{} was added to {}", args[2], args[3].as_str());
-                        println!("{:?}", des);
-                    },
-
-                    "marketing" => {
-                        mkt.push(args[2].as_str());
-                        println!("{} was added to {}", args[2], args[3].as_str());
-                        println!("{:?}", mkt);
-                    },
-
-                    "management" => {
-                        mgt.push(args[2].as_str());
-                        println!("{} was added to {}", args[2], args[3].as_str());
-                        println!("{:?}", mgt);
-                    },
-                    _ => panic!(),
-                }
+        // match the first argument to its functionality
+        match commands[0] {
+            // lists the departments and who's in them
+            "list" => {
+                // Could make this pretty... meh
+                println!("{:?}", employee_directory);
             },
-
-            Command::List => {
-                println!("Sales\n{:?}", sls);
-                println!("Development\n{:?}", dev);
-                println!("Design\n{:?}", des);
-                println!("Marketing\n{:?}", mkt);
-                println!("Management\n{:?}", mgt);
+            // adds the employee to the department specafied
+            // or crashes and burns if you give invalid input
+            "add" => {
+                let employee = commands[1];
+                let department = employee_directory.get_mut(commands[2]).unwrap();
+                department.push(employee.to_string());
+                println!("{} added to {}", employee, commands[2]);
             },
+            // breaks if the first command is neither list nor add
+            _ => break,
         }
-    }    
+    }
 }
