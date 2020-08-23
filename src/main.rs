@@ -19,7 +19,6 @@ sorted alphabetically.
 Each of the above examples should be it's own module.
 */
 
-
 mod pig_latin;
 use pig_latin::mod_pig_latin;
 
@@ -30,9 +29,8 @@ enum Command {
     Add,
 }
 
-
-
 fn main() {
+    // Challenge 2
     println!("{}", mod_pig_latin::to_pig_latin("india".to_string()));
     println!("{}", mod_pig_latin::to_pig_latin("dingus".to_string()));
 
@@ -42,6 +40,10 @@ fn main() {
     let mut mkt = vec!["Sally"];
     let mut mgt = vec!["Aaron"];
 
+
+    // See the guessing game for how to continually take input
+    // and push that new input to the vecs
+
     let args: Vec<String> = env::args().collect();
 
     let command = match args[1].as_str() {
@@ -49,8 +51,6 @@ fn main() {
         "list" => Command::List,
         _ => panic!(),
     };
-
-    let name = args[2].as_str();
 
     match command {
         Command::Add => {
