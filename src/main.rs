@@ -23,6 +23,7 @@ mod pig_latin;
 use pig_latin::mod_pig_latin;
 
 use std::env;
+use std::io;
 
 enum Command {
     List,
@@ -44,58 +45,60 @@ fn main() {
     // See the guessing game for how to continually take input
     // and push that new input to the vecs
 
-    let args: Vec<String> = env::args().collect();
+    loop{
+        let args: Vec<String> = env::args().collect();
 
-    let command = match args[1].as_str() {
-        "add" => Command::Add,
-        "list" => Command::List,
-        _ => panic!(),
-    };
+        let command = match args[1].as_str() {
+            "add" => Command::Add,
+            "list" => Command::List,
+            _ => panic!(),
+        };
 
-    match command {
-        Command::Add => {
-            let name = args[2].as_str();
-            match args[3].as_str() {
-                "sales" => {
-                    sls.push(name);
-                    println!("{} was added to {}", name, args[3].as_str());
-                    println!("{:?}", sls)
-                },
 
-                "development" => {
-                    dev.push(name);
-                    println!("{} was added to {}", name, args[3].as_str());
-                    println!("{:?}", dev)
-                },
+        match command {
+            Command::Add => {
+                // let name = args[2].as_str();
+                match args[3].as_str() {
+                    "sales" => {
+                        sls.push(args[2].as_str());
+                        println!("{} was added to {}", args[2], args[3]);
+                        println!("{:?}", sls)
+                    },
 
-                "design" => {
-                    des.push(name);
-                    println!("{} was added to {}", name, args[3].as_str());
-                    println!("{:?}", des);
-                },
+                    "development" => {
+                        dev.push(args[2].as_str());
+                        println!("{} was added to {}", args[2], args[3].as_str());
+                        println!("{:?}", dev)
+                    },
 
-                "marketing" => {
-                    mkt.push(name);
-                    println!("{} was added to {}", name, args[3].as_str());
-                    println!("{:?}", mkt);
-                },
+                    "design" => {
+                        des.push(args[2].as_str());
+                        println!("{} was added to {}", args[2], args[3].as_str());
+                        println!("{:?}", des);
+                    },
 
-                "management" => {
-                    mgt.push(name);
-                    println!("{} was added to {}", name, args[3].as_str());
-                    println!("{:?}", mgt);
-                },
-                _ => panic!(),
-            }
-        },
+                    "marketing" => {
+                        mkt.push(args[2].as_str());
+                        println!("{} was added to {}", args[2], args[3].as_str());
+                        println!("{:?}", mkt);
+                    },
 
-        Command::List => {
-            println!("Sales\n{:?}", sls);
-            println!("Development\n{:?}", dev);
-            println!("Design\n{:?}", des);
-            println!("Marketing\n{:?}", mkt);
-            println!("Management\n{:?}", mgt);
-        },
-    }
-    
+                    "management" => {
+                        mgt.push(args[2].as_str());
+                        println!("{} was added to {}", args[2], args[3].as_str());
+                        println!("{:?}", mgt);
+                    },
+                    _ => panic!(),
+                }
+            },
+
+            Command::List => {
+                println!("Sales\n{:?}", sls);
+                println!("Development\n{:?}", dev);
+                println!("Design\n{:?}", des);
+                println!("Marketing\n{:?}", mkt);
+                println!("Management\n{:?}", mgt);
+            },
+        }
+    }    
 }
