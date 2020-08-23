@@ -24,81 +24,36 @@ use pig_latin::mod_pig_latin;
 
 use std::env;
 use std::io;
+use std::collections::HashMap;
 
-enum Command {
-    List,
-    Add,
-}
 
 fn main() {
     // Challenge 2
     println!("{}", mod_pig_latin::to_pig_latin("india".to_string()));
     println!("{}", mod_pig_latin::to_pig_latin("dingus".to_string()));
 
-    let mut sls = vec!["Joe", "Ben", "Matt", "Caleb"];
-    let mut dev = vec!["Kevin"];
-    let mut des = vec!["Mark"];
-    let mut mkt = vec!["Sally"];
-    let mut mgt = vec!["Aaron"];
-
-
-    // See the guessing game for how to continually take input
-    // and push that new input to the vecs
+    let employee_directory: HashMap<String, Vec<String>> = HashMap::new();
 
     loop{
-        let args: Vec<String> = env::args().collect();
+        println!("Enter a command:");
+        println!("    list [ department ]");
+        println!("    add [ name ] [ department ]\n>>>");
 
-        let command = match args[1].as_str() {
-            "add" => Command::Add,
-            "list" => Command::List,
-            _ => panic!(),
-        };
+        // let args: Vec<String> = env::args().collect();
+        let mut args = String::new();
 
+        io::stdin().read_line(&mut args)
+            .expect("failed to read line");
 
-        match command {
-            Command::Add => {
-                // let name = args[2].as_str();
-                match args[3].as_str() {
-                    "sales" => {
-                        sls.push(args[2].as_str());
-                        println!("{} was added to {}", args[2], args[3]);
-                        println!("{:?}", sls)
-                    },
-
-                    "development" => {
-                        dev.push(args[2].as_str());
-                        println!("{} was added to {}", args[2], args[3].as_str());
-                        println!("{:?}", dev)
-                    },
-
-                    "design" => {
-                        des.push(args[2].as_str());
-                        println!("{} was added to {}", args[2], args[3].as_str());
-                        println!("{:?}", des);
-                    },
-
-                    "marketing" => {
-                        mkt.push(args[2].as_str());
-                        println!("{} was added to {}", args[2], args[3].as_str());
-                        println!("{:?}", mkt);
-                    },
-
-                    "management" => {
-                        mgt.push(args[2].as_str());
-                        println!("{} was added to {}", args[2], args[3].as_str());
-                        println!("{:?}", mgt);
-                    },
-                    _ => panic!(),
-                }
+        match args.as_str().trim() {
+            "again" => {
+                println!("doing it again!");
+                // Add anything at all to the hashmaps vec
             },
-
-            Command::List => {
-                println!("Sales\n{:?}", sls);
-                println!("Development\n{:?}", dev);
-                println!("Design\n{:?}", des);
-                println!("Marketing\n{:?}", mkt);
-                println!("Management\n{:?}", mgt);
-            },
+            _ => {
+                println!("Got {}: Breaking", args.trim());   
+                break;
+            }
         }
     }    
 }
