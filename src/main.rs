@@ -24,36 +24,51 @@ use pig_latin::mod_pig_latin;
 
 use std::env;
 use std::io;
-use std::collections::HashMap;
+use std::collections::{ HashMap, hash_map::Entry };
 
 
 fn main() {
     // Challenge 2
     println!("{}", mod_pig_latin::to_pig_latin("india".to_string()));
     println!("{}", mod_pig_latin::to_pig_latin("dingus".to_string()));
+    println!("\n");
 
-    let employee_directory: HashMap<String, Vec<String>> = HashMap::new();
+    // Challenge 3
+    // This is a massivly error prone solution.
+    // However, we're not to the chapter on error handling yet
+    // That is my excuse.
 
-    loop{
-        println!("Enter a command:");
-        println!("    list [ department ]");
-        println!("    add [ name ] [ department ]\n>>>");
+    // Initialize an HashMap, and add some departments to work with:
+    let mut employee_directory: HashMap<String, Vec<String>> = HashMap::new();
+    employee_directory.insert(String::from("Development"), vec![]);
+    employee_directory.insert(String::from("Design"), vec![]);
+    employee_directory.insert(String::from("Marketing"), vec![]);
 
-        // let args: Vec<String> = env::args().collect();
-        let mut args = String::new();
+    // Just like the guessing game
+    // Should add some instructions
+    loop {
+        // capture the input and split it into a Vec<String>
+        let mut input = String::new();
+        io::stdin().read_line(&mut input).expect("");
+        let commands: Vec<&str> = input.trim().split(" ").collect();
 
-        io::stdin().read_line(&mut args)
-            .expect("failed to read line");
-
-        match args.as_str().trim() {
-            "again" => {
-                println!("doing it again!");
-                // Add anything at all to the hashmaps vec
+        // match the first argument to its functionality
+        match commands[0] {
+            // lists the departments and who's in them
+            "list" => {
+                // Could make this pretty... meh
+                println!("{:?}", employee_directory);
             },
-            _ => {
-                println!("Got {}: Breaking", args.trim());   
-                break;
-            }
+            // adds the employee to the department specafied
+            // or crashes and burns if you give invalid input
+            "add" => {
+                let employee = commands[1];
+                let department = employee_directory.get_mut(commands[2]).unwrap();
+                department.push(employee.to_string());
+                println!("{} added to {}", employee, commands[2]);
+            },
+            // breaks if the first command is neither list nor add
+            _ => break,
         }
-    }    
+    }
 }
