@@ -19,34 +19,83 @@ sorted alphabetically.
 Each of the above examples should be it's own module.
 */
 
-// Challenge 1: Mean, Median, Mode
 
-// Challenge 2: Convert to Pig Latin
-pub mod pig_latin{
+mod pig_latin;
+use pig_latin::mod_pig_latin;
 
-    fn is_vowel(mut input: String) -> bool {
-        let first = input.remove(0)
-            .to_uppercase().next().unwrap();
+use std::env;
 
-        match first {
-            'A' | 'E' | 'I' | 'O' | 'U' =>
-                return true,
-            _ => return false,
-        }
-
-    }
-
-    pub fn to_pig_latin(mut input: String) -> String {
-        if is_vowel(input.clone()) {
-            return format!("{}-hay", input);
-        }
-
-        let first = input.remove(0);
-        format!("{}-{}ay", input, first)
-    }
+enum Command {
+    List,
+    Add,
 }
 
 
+
 fn main() {
-    println!("{}", pig_latin::to_pig_latin("india".to_string()));
+    println!("{}", mod_pig_latin::to_pig_latin("india".to_string()));
+    println!("{}", mod_pig_latin::to_pig_latin("dingus".to_string()));
+
+    let mut sls = vec!["Joe", "Ben", "Matt", "Caleb"];
+    let mut dev = vec!["Kevin"];
+    let mut des = vec!["Mark"];
+    let mut mkt = vec!["Sally"];
+    let mut mgt = vec!["Aaron"];
+
+    let args: Vec<String> = env::args().collect();
+
+    let command = match args[1].as_str() {
+        "add" => Command::Add,
+        "list" => Command::List,
+        _ => panic!(),
+    };
+
+    let name = args[2].as_str();
+
+    match command {
+        Command::Add => {
+            let name = args[2].as_str();
+            match args[3].as_str() {
+                "sales" => {
+                    sls.push(name);
+                    println!("{} was added to {}", name, args[3].as_str());
+                    println!("{:?}", sls)
+                },
+
+                "development" => {
+                    dev.push(name);
+                    println!("{} was added to {}", name, args[3].as_str());
+                    println!("{:?}", dev)
+                },
+
+                "design" => {
+                    des.push(name);
+                    println!("{} was added to {}", name, args[3].as_str());
+                    println!("{:?}", des);
+                },
+
+                "marketing" => {
+                    mkt.push(name);
+                    println!("{} was added to {}", name, args[3].as_str());
+                    println!("{:?}", mkt);
+                },
+
+                "management" => {
+                    mgt.push(name);
+                    println!("{} was added to {}", name, args[3].as_str());
+                    println!("{:?}", mgt);
+                },
+                _ => panic!(),
+            }
+        },
+
+        Command::List => {
+            println!("Sales\n{:?}", sls);
+            println!("Development\n{:?}", dev);
+            println!("Design\n{:?}", des);
+            println!("Marketing\n{:?}", mkt);
+            println!("Management\n{:?}", mgt);
+        },
+    }
+    
 }
